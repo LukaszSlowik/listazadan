@@ -42,7 +42,7 @@ const TaskList = (props: Props) => {
   const { mutate } = useMutation(saveTasks, {
     onSuccess: () => {
       //enableRef.current = true;
-      //queryClient.invalidateQueries(["tasks"]);
+      queryClient.invalidateQueries(["tasks"]);
       //setTasks(tasksFromDB);
     },
   });
