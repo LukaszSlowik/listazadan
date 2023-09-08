@@ -128,6 +128,12 @@ const TaskList = (props: Props) => {
     mutate(tasks);
   };
 
+  const handleGetData = async () => {
+    console.log(tasks);
+    const data = await getTasks();
+    setTasks(data);
+  };
+
   if (isLoading) return <div>Loading...</div>;
 
   return (
@@ -137,7 +143,7 @@ const TaskList = (props: Props) => {
           <DatabaseIcon />
           Pobierz z bazy
         </ButtonUpdateOrGet>
-
+        <button onClick={handleGetData}>Test get data</button>
         <ButtonUpdateOrGet
           mutateVersion={true}
           triggerMutation={triggerMutation}
