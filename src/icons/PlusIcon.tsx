@@ -1,11 +1,7 @@
 import React from "react";
 
-type Props = {
-  width?: number;
-  height?: number;
-} & React.SVGProps<SVGSVGElement>;
-
-const PlusIcon = (props: Props) => {
+type Props = {} & React.SVGProps<SVGSVGElement>;
+const PlusIcon = ({ className, ...props }: Props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -13,7 +9,7 @@ const PlusIcon = (props: Props) => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="h-6 w-6"
+      className={className}
       //   width={props.width || 20}
       //   height={props.height || 20}
     >
