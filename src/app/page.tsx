@@ -1,4 +1,3 @@
-import KandbanBoard from "@/components/KandbanBoard";
 import TaskList from "@/components/TaskList";
 import PlusIcon from "@/icons/PlusIcon";
 import Image from "next/image";
