@@ -24,6 +24,8 @@ export async function saveTasks(tasks: Task[]) {
     const res = await fetch("/api/saveTasks", {
       method: "POST",
       body: JSON.stringify(tasks),
+
+      cache: "no-store",
     });
     const data = await res.json();
     console.log("save tasks will return:", data);
