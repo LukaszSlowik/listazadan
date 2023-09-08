@@ -2,15 +2,10 @@ import { Task } from "../validations/Task";
 
 export async function getTasks(): Promise<Task[]> {
   try {
-    const { signal } = new AbortController();
     const res = await fetch(
       "/api/getTasks", //{ cache: "no-store" }
       {
-        next: {
-          revalidate: 1,
-        },
         cache: "no-store",
-        signal,
       },
     );
 
