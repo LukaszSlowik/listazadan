@@ -1,3 +1,4 @@
+"use client";
 import { Task } from "../validations/Task";
 
 export async function getTasks(): Promise<Task[]> {
