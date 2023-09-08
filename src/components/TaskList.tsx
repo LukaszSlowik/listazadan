@@ -150,7 +150,7 @@ const TaskList = (props: Props) => {
         }}
         className=" flex items-center gap-2 rounded-md border-2 border-columnBackgroundColor border-x-columnBackgroundColor p-4 hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
       >
-        <PlusIcon />
+        <PlusIcon className="h-6 w-6" />
         Dodaj zadanie
       </button>
       <div
