@@ -148,7 +148,7 @@ const TaskList = (props: Props) => {
         onClick={() => {
           createTask();
         }}
-        className="flex items-center gap-2 rounded-md border-2 border-columnBackgroundColor border-x-columnBackgroundColor p-4 hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
+        className=" flex items-center gap-2 rounded-md border-2 border-columnBackgroundColor border-x-columnBackgroundColor p-4 hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
       >
         <PlusIcon />
         Dodaj zadanie
