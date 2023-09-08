@@ -20,6 +20,7 @@ export async function POST(req: Request) {
     return rest;
   });
 
-  const tasks = await createAllTasks(tasksWithoutID);
+  const result = await createAllTasks(tasksWithoutID);
+  const tasks = await getAllTasks();
   return NextResponse.json({ tasks: tasks });
 }

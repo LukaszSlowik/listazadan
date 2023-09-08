@@ -24,35 +24,36 @@ import SendIcon from "@/icons/SendIcon";
 type Props = {};
 
 const TaskList = (props: Props) => {
-  const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = React.useState(false);
+  //const queryClient = useQueryClient();
 
-  const {
-    data: tasksFromDB = [],
-    isLoading,
-    refetch,
-    isError,
-  } = useQuery(["tasks"], getTasks, {
-    enabled: true,
-    refetchOnWindowFocus: false,
-    refetchOnMount: true,
-    refetchOnReconnect: true,
-    staleTime: Infinity,
-  });
+  // const {
+  //   data: tasksFromDB = [],
+  //   isLoading,
+  //   refetch,
+  //   isError,
+  // } = useQuery(["tasks"], getTasks, {
+  //   enabled: true,
+  //   refetchOnWindowFocus: false,
+  //   refetchOnMount: true,
+  //   refetchOnReconnect: true,
+  //   staleTime: Infinity,
+  // });
 
-  const { mutate } = useMutation(saveTasks, {
-    onSuccess: () => {
-      //enableRef.current = true;
-      queryClient.invalidateQueries(["tasks"]);
-      //setTasks(tasksFromDB);
-    },
-  });
+  // const { mutate } = useMutation(saveTasks, {
+  //   onSuccess: () => {
+  //     //enableRef.current = true;
+  //     queryClient.invalidateQueries(["tasks"]);
+  //     //setTasks(tasksFromDB);
+  //   },
+  // });
 
-  const [tasks, setTasks] = React.useState<Task[]>(tasksFromDB);
-
-  useMemo(() => {
-    if (tasksFromDB.length === 0) return;
-    setTasks(tasksFromDB);
-  }, [tasksFromDB]);
+  // const [tasks, setTasks] = React.useState<Task[]>(tasksFromDB);
+  const [tasks, setTasks] = React.useState<Task[]>([]);
+  // useMemo(() => {
+  //   if (tasksFromDB.length === 0) return;
+  //   setTasks(tasksFromDB);
+  // }, [tasksFromDB]);
 
   const [activeTask, setActiveTask] = React.useState<Task | null>(null);
 
@@ -68,7 +69,8 @@ const TaskList = (props: Props) => {
   };
 
   const tasksId = React.useMemo(() => {
-    return tasks.map((task) => task.id);
+    if (!Array.isArray(tasks)) return;
+    return tasks?.map((task) => task.id);
   }, [tasks]);
 
   const createTask = () => {
@@ -124,8 +126,13 @@ const TaskList = (props: Props) => {
   };
   console.log(tasks);
 
-  const triggerMutation = () => {
-    mutate(tasks);
+  const triggerMutation = async () => {
+    //mutate(tasks);
+    setIsLoading(true);
+    const t = await saveTasks(tasks);
+    console.log("t is ok: ", t);
+    setTasks(t);
+    setIsLoading(false);
   };
 
   const handleGetData = async () => {
@@ -134,7 +141,14 @@ const TaskList = (props: Props) => {
     setTasks(data);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  const refetch = async () => {
+    setIsLoading(true);
+    const data = await getTasks();
+    setTasks(data);
+    setIsLoading(false);
+  };
+
+  if (isLoading || !Array.isArray(tasks)) return <div>Loading...</div>;
 
   return (
     <>
@@ -181,7 +195,7 @@ const TaskList = (props: Props) => {
         >
           <div className="flex flex-col gap-4 p-2">
             <SortableContext items={tasksId as UniqueIdentifier[]}>
-              {tasks.map((task) => (
+              {tasks?.map((task) => (
                 <TaskContainer
                   task={task}
                   key={task.id}

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Id } from "@/types";
 import { useSortable } from "@dnd-kit/sortable";

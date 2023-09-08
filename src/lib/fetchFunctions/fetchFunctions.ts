@@ -31,7 +31,8 @@ export async function saveTasks(tasks: Task[]) {
       body: JSON.stringify(tasks),
     });
     const data = await res.json();
-    return data;
+    console.log("save tasks will return:", data);
+    return data.tasks || [];
   } catch (err) {
     console.log(err);
   }
