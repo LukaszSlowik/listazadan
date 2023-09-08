@@ -2,7 +2,7 @@ import { Task } from "../validations/Task";
 
 export async function getTasks(): Promise<Task[]> {
   try {
-    const res = await fetch("/api/getTasks");
+    const res = await fetch("/api/getTasks", { cache: "no-store" });
     const tasks = await res.json();
 
     console.log("will return tasks", tasks);
