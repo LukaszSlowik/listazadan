@@ -34,6 +34,8 @@ const TaskList = (props: Props) => {
   } = useQuery(["tasks"], getTasks, {
     enabled: true,
     refetchOnWindowFocus: false,
+    refetchOnMount: true,
+    refetchOnReconnect: true,
     staleTime: 1000 * 60 * 60 * 24, // 24 hours
   });
 
