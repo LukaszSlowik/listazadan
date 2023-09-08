@@ -4,8 +4,8 @@ export const schemaTask = z.object({
   id: z.string(),
   content: z.string(),
   index: z.number(),
-  userId: z.string().nullable().default(null),
-  done: z.boolean().nullable().default(false),
+  userId: z.string(),
+  done: z.boolean().default(false),
   //date or string
   //zod string optional or nullable
 

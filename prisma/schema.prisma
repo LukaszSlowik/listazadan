@@ -67,7 +67,7 @@ model Task {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   content  String
   index  Int @default(0)
-  userId String @db.ObjectId
+  userId String? 
   done Boolean @default(false)
   dateOfDone String?
 }

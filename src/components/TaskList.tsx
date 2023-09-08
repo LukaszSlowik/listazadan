@@ -75,7 +75,7 @@ const TaskList = (props: Props) => {
       content: `Zadanie ${tasks.length + 1}`,
       index: tasks.length + 1,
       done: false,
-      userId: null,
+      userId: "test",
       dateOfDone: new Date().toISOString().slice(0, 10),
       //userId: "1",
     };
