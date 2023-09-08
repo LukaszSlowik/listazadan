@@ -8,6 +8,7 @@ export async function getTasks(): Promise<Task[]> {
         next: {
           revalidate: 1,
         },
+        cache: "no-store",
       },
     );
 
