@@ -75,7 +75,7 @@ const TaskList = (props: Props) => {
       content: `Zadanie ${tasks.length + 1}`,
       index: tasks.length + 1,
       done: false,
-      userId: null,
+      userId: "test",
       dateOfDone: new Date().toISOString().slice(0, 10),
       //userId: "1",
     };
@@ -148,7 +148,7 @@ const TaskList = (props: Props) => {
         onClick={() => {
           createTask();
         }}
-        className=" flex items-center gap-2 rounded-md border-2 border-columnBackgroundColor border-x-columnBackgroundColor p-4 hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
+        className="  flex items-center gap-2 rounded-md border-2 border-columnBackgroundColor border-x-columnBackgroundColor p-4 hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
       >
         <PlusIcon className="h-6 w-6" />
         Dodaj zadanie
