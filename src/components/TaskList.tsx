@@ -36,7 +36,7 @@ const TaskList = (props: Props) => {
     refetchOnWindowFocus: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
-    staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    staleTime: Infinity,
   });
 
   const { mutate } = useMutation(saveTasks, {
