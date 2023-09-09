@@ -37,6 +37,7 @@ const TaskContainer = ({ task, deleteTask, updateTask }: Props) => {
   const style = {
     transition,
     transform: CSS.Transform.toString(transform),
+    touchAction: "none",
   };
 
   const toggleEditMode = () => {
