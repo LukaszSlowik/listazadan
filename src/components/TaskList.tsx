@@ -189,6 +189,7 @@ const TaskList = (props: Props) => {
       touch-none
       flex-col
       overflow-y-auto
+      overscroll-none
       rounded-md
       bg-columnBackgroundColor"
       >
