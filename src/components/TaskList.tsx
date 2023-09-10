@@ -11,6 +11,8 @@ import {
   useSensor,
   PointerSensor,
   UniqueIdentifier,
+  MouseSensor,
+  TouchSensor,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import TaskContainer from "./TaskContainer";
@@ -56,14 +58,17 @@ const TaskList = (props: Props) => {
   // }, [tasksFromDB]);
 
   const [activeTask, setActiveTask] = React.useState<Task | null>(null);
-
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 10, //300px
-      },
-    }),
-  );
+  const mouseSensor = useSensor(MouseSensor, {
+    activationConstraint: {
+      distance: 10, //300px
+    },
+  }); // Initialize mouse sensor
+  const touchSensor = useSensor(TouchSensor, {
+    activationConstraint: {
+      distance: 10, //300px
+    },
+  }); // Initialize touch sensor
+  const sensors = useSensors(mouseSensor, touchSensor);
   const generateId = () => {
     return Math.floor(Math.random() * 10001).toString();
   };
