@@ -182,6 +182,7 @@ const TaskList = (props: Props) => {
       </button>
       <div
         className="
+      
       flex
       h-[500px]
       max-h-[500px]
@@ -200,7 +201,7 @@ const TaskList = (props: Props) => {
           onDragEnd={onDragEnd}
           //onDragOver={onDragOver}
         >
-          <div className="l flex touch-none flex-col gap-4 p-2">
+          <div className="l flex  flex-col gap-4 p-2">
             <SortableContext items={tasksId as UniqueIdentifier[]}>
               {tasks?.map((task) => (
                 <TaskContainer
