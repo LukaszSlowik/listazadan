@@ -50,7 +50,7 @@ const TaskContainer = ({ task, deleteTask, updateTask }: Props) => {
       <div
         ref={setNodeRef}
         style={style}
-        className="relative mx-10 flex h-[70px] min-h-[70px] cursor-grab items-center rounded-xl border-2 border-rose-500 bg-mainBackgroundColor p-2.5 text-left opacity-30 "
+        className="relative  flex h-[70px] min-h-[70px] cursor-grab items-center rounded-xl border-2 border-rose-500 bg-mainBackgroundColor p-2.5 text-left opacity-30 "
       ></div>
     );
   }
@@ -90,7 +90,7 @@ const TaskContainer = ({ task, deleteTask, updateTask }: Props) => {
       onClick={toggleEditMode}
       onMouseEnter={() => setMouseIsOver(true)}
       onMouseLeave={() => setMouseIsOver(false)}
-      className="task relative mx-10 flex h-[70px] min-h-[70px] cursor-grab items-center rounded-xl bg-mainBackgroundColor p-2.5 text-left hover:ring-2 hover:ring-inset hover:ring-rose-500"
+      className="task relative  flex h-[70px] min-h-[70px] cursor-grab items-center rounded-xl bg-mainBackgroundColor p-2.5 text-left hover:ring-2 hover:ring-inset hover:ring-rose-500"
     >
       <p className="my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
         {task.content}
