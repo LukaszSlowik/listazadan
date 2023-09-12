@@ -9,7 +9,7 @@ body,
 }
 
 ::-webkit-scrollbar {
-  width: 20px;
+  @apply w-5 sm:w-1;
 }
 ::-webkit-scrollbar:horizontal {
   height: 8px;

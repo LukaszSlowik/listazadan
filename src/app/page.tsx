@@ -4,6 +4,7 @@ import PlusIcon from "@/icons/PlusIcon";
 import Image from "next/image";
 import options from "@/app/api/auth/[...nextauth]/options";
 import LoginButton from "@/components/buttons/LoginButton";
+import SignInOutButton from "@/components/buttons/SignInOut";
 
 export const dynamic = "force-dynamic";
 
@@ -14,13 +15,15 @@ export default async function Home() {
       {session ? (
         <>
           {" "}
-          <div>User info: {session?.user?.email}</div>
+          <div>
+            User info: {session?.user?.email} <SignInOutButton />{" "}
+          </div>
           <TaskList />
         </>
       ) : (
         <>
           <div>Not logged in</div>
-          <LoginButton />
+          <SignInOutButton />
         </>
       )}
     </main>
