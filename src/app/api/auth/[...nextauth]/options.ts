@@ -1,11 +1,28 @@
 import type { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { prisma } from "@/lib/prisma";
 import { GoogleProfile } from "next-auth/providers/google";
 export const options: NextAuthOptions = {
+  callbacks: {
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        session.user.id = token.uid as string;
+      }
+      return session;
+    },
+    jwt: async ({ user, token }) => {
+      if (user) {
+        token.uid = user.id;
+      }
+      return token;
+    },
+  },
   session: {
     strategy: "jwt",
   },
+  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
@@ -38,6 +55,7 @@ export const options: NextAuthOptions = {
         const user = await res.json();
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
+
           return user;
         } else {
           // If you return null then an error will be displayed advising the user to check their details.

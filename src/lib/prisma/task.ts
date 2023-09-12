@@ -6,8 +6,12 @@ export const createTask = async (data: Task) => {
   return task;
 };
 
-export const getAllTasks = async () => {
-  const tasks = await prisma.task.findMany();
+export const getAllTasks = async (userId: string) => {
+  const tasks = await prisma.task.findMany({
+    where: {
+      userId: userId,
+    },
+  });
   console.log("I will get tasks : ", tasks);
   return tasks;
 };

@@ -16,6 +16,7 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import TaskContainer from "./TaskContainer";
+import { signIn, useSession } from "next-auth/react";
 import PlusIcon from "@/icons/PlusIcon";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Task } from "@/lib/validations/Task";
@@ -26,29 +27,26 @@ import SendIcon from "@/icons/SendIcon";
 type Props = {};
 
 const TaskList = (props: Props) => {
-  //const [isLoading, setIsLoading] = React.useState(false);
+  const { data: session } = useSession();
+
   const queryClient = useQueryClient();
   const [updateTasks, setUpdateTasks] = React.useState(false);
 
-  const {
-    data: tasksFromDB = [],
-    isLoading,
-    isSuccess,
-    status,
-    refetch,
-    isError,
-  } = useQuery(["tasks"], getTasks, {
-    enabled: true,
-    refetchOnWindowFocus: false,
-    refetchOnMount: true,
-    refetchOnReconnect: true,
-    staleTime: Infinity,
-  });
+  const { data: tasksFromDB = [], isLoading } = useQuery(
+    ["tasks", session?.user.id],
+    () => getTasks(session?.user.id as string),
+    {
+      enabled: !!session?.user.id,
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      staleTime: Infinity,
+    },
+  );
 
   const { mutate } = useMutation(saveTasks, {
     onSuccess: () => {
-      //enableRef.current = true;
-      queryClient.invalidateQueries(["tasks"]);
+      queryClient.invalidateQueries(["tasks", session?.user.id]);
     },
   });
 
@@ -88,9 +86,9 @@ const TaskList = (props: Props) => {
       content: `Zadanie ${tasks.length + 1}`,
       index: tasks.length + 1,
       done: false,
-      userId: "test",
+
       dateOfDone: new Date().toISOString().slice(0, 10),
-      //userId: "1",
+      userId: session?.user.id as string,
     };
     setTasks([...tasks, taskToAdd]);
   };
@@ -147,6 +145,19 @@ const TaskList = (props: Props) => {
   };
 
   if (isLoading || !Array.isArray(tasks)) return <div>Ładuje...</div>;
+
+  if (!session || !session.user)
+    return (
+      <div>
+        <p>Nie jesteś zalogowany</p>
+        <button
+          onClick={() => signIn()}
+          className="flex cursor-pointer items-center gap-2 rounded-md border-2 border-columnBackgroundColor border-x-columnBackgroundColor p-4 hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
+        >
+          Zaloguj
+        </button>
+      </div>
+    );
 
   return (
     <>
