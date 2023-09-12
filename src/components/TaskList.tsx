@@ -26,36 +26,45 @@ import SendIcon from "@/icons/SendIcon";
 type Props = {};
 
 const TaskList = (props: Props) => {
-  const [isLoading, setIsLoading] = React.useState(false);
-  //const queryClient = useQueryClient();
+  //const [isLoading, setIsLoading] = React.useState(false);
+  const queryClient = useQueryClient();
+  const [updateTasks, setUpdateTasks] = React.useState(false);
 
-  // const {
-  //   data: tasksFromDB = [],
-  //   isLoading,
-  //   refetch,
-  //   isError,
-  // } = useQuery(["tasks"], getTasks, {
-  //   enabled: true,
-  //   refetchOnWindowFocus: false,
-  //   refetchOnMount: true,
-  //   refetchOnReconnect: true,
-  //   staleTime: Infinity,
-  // });
+  const {
+    data: tasksFromDB = [],
+    isLoading,
+    isSuccess,
+    status,
+    refetch,
+    isError,
+  } = useQuery(["tasks"], getTasks, {
+    enabled: true,
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+    refetchOnReconnect: true,
+    staleTime: Infinity,
+  });
 
-  // const { mutate } = useMutation(saveTasks, {
-  //   onSuccess: () => {
-  //     //enableRef.current = true;
-  //     queryClient.invalidateQueries(["tasks"]);
-  //     //setTasks(tasksFromDB);
-  //   },
-  // });
+  const { mutate } = useMutation(saveTasks, {
+    onSuccess: () => {
+      //enableRef.current = true;
+      queryClient.invalidateQueries(["tasks"]);
+    },
+  });
 
   // const [tasks, setTasks] = React.useState<Task[]>(tasksFromDB);
-  const [tasks, setTasks] = React.useState<Task[]>([]);
+  const [tasks, setTasks] = React.useState<Task[]>(tasksFromDB);
   // useMemo(() => {
   //   if (tasksFromDB.length === 0) return;
+  //   console.log("tasks will be updated");
   //   setTasks(tasksFromDB);
   // }, [tasksFromDB]);
+
+  useEffect(() => {
+    if (tasksFromDB.length === 0) return;
+    console.log("tasks will be updated");
+    setTasks(tasksFromDB);
+  }, [tasksFromDB, updateTasks]);
 
   const [activeTask, setActiveTask] = React.useState<Task | null>(null);
   const mouseSensor = useSensor(MouseSensor, {
@@ -132,12 +141,12 @@ const TaskList = (props: Props) => {
   console.log(tasks);
 
   const triggerMutation = async () => {
-    //mutate(tasks);
-    setIsLoading(true);
-    const t = await saveTasks(tasks);
-    console.log("t is ok: ", t);
-    setTasks(t);
-    setIsLoading(false);
+    mutate(tasks);
+    //setIsLoading(true);
+    // const t = await saveTasks(tasks);
+    // console.log("t is ok: ", t);
+    // setTasks(t);
+    // setIsLoading(false);
   };
 
   const handleGetData = async () => {
@@ -146,23 +155,29 @@ const TaskList = (props: Props) => {
     setTasks(data);
   };
 
-  const refetch = async () => {
-    setIsLoading(true);
-    const data = await getTasks();
-    setTasks(data);
-    setIsLoading(false);
+  // const refetch = async () => {
+  //   setIsLoading(true);
+  //   const data = await getTasks();
+  //   setTasks(data);
+  //   setIsLoading(false);
+  // };
+  const invalidateQuery = () => {
+    queryClient.invalidateQueries(["tasks"]);
+    // refetch();
+    setUpdateTasks((prev) => !prev);
+    //
   };
 
-  if (isLoading || !Array.isArray(tasks)) return <div>Loading...</div>;
+  if (isLoading || !Array.isArray(tasks)) return <div>Ładuje...</div>;
 
   return (
     <>
-      <div className="flex gap-4">
-        <ButtonUpdateOrGet refetch={refetch}>
+      <div className="flex flex-wrap gap-4">
+        <ButtonUpdateOrGet refetch={invalidateQuery}>
           <DatabaseIcon />
           Pobierz z bazy
         </ButtonUpdateOrGet>
-        <button onClick={handleGetData}>Test get data</button>
+        {/* <button onClick={handleGetData}>Test get data</button> */}
         <ButtonUpdateOrGet
           mutateVersion={true}
           triggerMutation={triggerMutation}
@@ -170,16 +185,17 @@ const TaskList = (props: Props) => {
           Aktualizuj
           <SendIcon />
         </ButtonUpdateOrGet>
+        <button
+          onClick={() => {
+            createTask();
+          }}
+          className="  flex items-center gap-2 rounded-md border-2 border-columnBackgroundColor border-x-columnBackgroundColor p-4 hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
+        >
+          <PlusIcon className="h-6 w-6" />
+          Dodaj zadanie
+        </button>
       </div>
-      <button
-        onClick={() => {
-          createTask();
-        }}
-        className="  flex items-center gap-2 rounded-md border-2 border-columnBackgroundColor border-x-columnBackgroundColor p-4 hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
-      >
-        <PlusIcon className="h-6 w-6" />
-        Dodaj zadanie
-      </button>
+
       <div
         className="
       

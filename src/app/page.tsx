@@ -14,17 +14,10 @@ export default async function Home() {
     <main className="  flex  min-h-screen flex-col items-center  gap-8 overscroll-none pt-4">
       {session ? (
         <>
-          {" "}
-          <div>
-            User info: {session?.user?.email} <SignInOutButton />{" "}
-          </div>
           <TaskList />
         </>
       ) : (
-        <>
-          <div>Not logged in</div>
-          <SignInOutButton />
-        </>
+        <></>
       )}
     </main>
   );

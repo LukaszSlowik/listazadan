@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Providers from "./providers";
 import AuthProvider from "./context/AuthProvider";
 import SignInOutButton from "@/components/buttons/SignInOut";
+import NavBar from "@/components/NavBar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,9 +21,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          {/* <Providers> */}
-          {children}
-          {/* </Providers> */}
+          <NavBar />
+          <Providers>{children}</Providers>
         </AuthProvider>
       </body>
     </html>
