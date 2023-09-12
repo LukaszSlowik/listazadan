@@ -54,11 +54,6 @@ const TaskList = (props: Props) => {
 
   // const [tasks, setTasks] = React.useState<Task[]>(tasksFromDB);
   const [tasks, setTasks] = React.useState<Task[]>(tasksFromDB);
-  // useMemo(() => {
-  //   if (tasksFromDB.length === 0) return;
-  //   console.log("tasks will be updated");
-  //   setTasks(tasksFromDB);
-  // }, [tasksFromDB]);
 
   useEffect(() => {
     if (tasksFromDB.length === 0) return;
@@ -142,25 +137,8 @@ const TaskList = (props: Props) => {
 
   const triggerMutation = async () => {
     mutate(tasks);
-    //setIsLoading(true);
-    // const t = await saveTasks(tasks);
-    // console.log("t is ok: ", t);
-    // setTasks(t);
-    // setIsLoading(false);
   };
 
-  const handleGetData = async () => {
-    console.log(tasks);
-    const data = await getTasks();
-    setTasks(data);
-  };
-
-  // const refetch = async () => {
-  //   setIsLoading(true);
-  //   const data = await getTasks();
-  //   setTasks(data);
-  //   setIsLoading(false);
-  // };
   const invalidateQuery = () => {
     queryClient.invalidateQueries(["tasks"]);
     // refetch();

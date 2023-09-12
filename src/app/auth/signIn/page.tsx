@@ -16,7 +16,6 @@ const LoginPage = async (props: Props) => {
 
   return (
     <>
-      <LineWithCenteredText>lub</LineWithCenteredText>
       <SignIn callbackUrl={props.searchParams?.callbackUrl} />;
     </>
   );
