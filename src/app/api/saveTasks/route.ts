@@ -8,6 +8,7 @@ export const revalidate = 0;
 export async function POST(req: Request) {
   const body = await req.json();
   const response = schemaTasks.safeParse(body);
+  const { userId } = body[0];
   console.log("response", response);
   if (!response.success) {
     return NextResponse.json(response.error);
@@ -22,6 +23,6 @@ export async function POST(req: Request) {
   });
 
   const result = await createAllTasks(tasksWithoutID);
-  const tasks = await getAllTasks();
+  const tasks = await getAllTasks(userId as string);
   return NextResponse.json({ tasks: tasks });
 }
