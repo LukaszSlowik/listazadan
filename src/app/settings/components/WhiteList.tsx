@@ -1,4 +1,5 @@
 "use client";
+import Tooltip from "@/components/Tooltip";
 import CloseIcon from "@/icons/CloseIcon";
 import PlusIcon from "@/icons/PlusIcon";
 import TrashIcon from "@/icons/TrashIcon";
@@ -50,15 +51,22 @@ const WhiteList = (props: Props) => {
     <>
       <div className="flex flex-row items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Lista upoważnień</h1>
-        {showAddEmail ? (
-          <span onClick={() => setShowAddEmail(false)}>
-            <CloseIcon className="h-6 w-6 cursor-pointer stroke-slate-700" />
-          </span>
-        ) : (
-          <span onClick={() => setShowAddEmail(true)}>
-            <PlusIcon className="h-6 w-6 cursor-pointer stroke-green-600" />
-          </span>
-        )}
+        <Tooltip
+          text={showAddEmail ? "Zamknij" : "Dodaj"}
+          position="bottom-left"
+          transition={false}
+          className=" bg-white text-black"
+        >
+          {showAddEmail ? (
+            <span onClick={() => setShowAddEmail(false)}>
+              <CloseIcon className="h-6 w-6 cursor-pointer stroke-slate-700" />
+            </span>
+          ) : (
+            <span onClick={() => setShowAddEmail(true)}>
+              <PlusIcon className="h-6 w-6 cursor-pointer stroke-green-600" />
+            </span>
+          )}
+        </Tooltip>
       </div>
       {showAddEmail && (
         <div className="flex flex-row items-center justify-between">
@@ -71,6 +79,7 @@ const WhiteList = (props: Props) => {
             placeholder="Wpisz email"
             className="rounded-md border-2 border-mainBackgroundColor p-2 text-black"
           />
+
           <button
             onClick={() => {
               console.log("dodaj");
@@ -91,7 +100,16 @@ const WhiteList = (props: Props) => {
               className="grid  grid-cols-2  gap-8 border px-4 py-2"
             >
               <p>{item.email}</p>
-              <TrashIcon className="mx-2 h-6 w-6 cursor-pointer justify-self-end stroke-red-600" />
+              <div className="place-self-end">
+                <Tooltip
+                  text="Usuń"
+                  position="bottom-left"
+                  transition={false}
+                  className=" bg-white text-black"
+                >
+                  <TrashIcon className="mx-2 h-6 w-6 cursor-pointer  stroke-red-600" />
+                </Tooltip>
+              </div>
             </div>
           );
         })}

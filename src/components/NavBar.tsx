@@ -3,10 +3,13 @@ import { getServerSession } from "next-auth";
 import SignInOutButton from "./buttons/SignInOut";
 import Link from "next/link";
 import SettingIcon from "@/icons/SettingIcon";
+import Tooltip from "./Tooltip";
+import Image from "next/image";
 type Props = {};
 
 const NavBar = async (props: Props) => {
   const session = await getServerSession();
+  const image = session?.user.image;
   return (
     <nav className="sticky z-10 min-w-full    p-4 drop-shadow-xl">
       <div className="mx-auto flex flex-col items-center justify-between sm:flex-row">
@@ -21,9 +24,25 @@ const NavBar = async (props: Props) => {
 
         <div className="flex flex-row items-center justify-center gap-4 align-middle text-xl text-white sm:justify-evenly lg:text-2xl">
           <SignInOutButton className="flex cursor-pointer items-center gap-2 rounded-md border-2 border-columnBackgroundColor border-x-columnBackgroundColor p-2 hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black" />
-          <Link className=" cursor-pointer" href="/settings">
-            {session?.user && <SettingIcon className="h-6 w-6" />}
-          </Link>
+          {image && (
+            <Image
+              src={image}
+              alt="avatar"
+              height={32}
+              width={32}
+              className="rounded-full"
+            />
+          )}
+          <Tooltip
+            text="Ustawienia"
+            position="bottom-left"
+            transition={true}
+            className="bg-white text-black"
+          >
+            <Link className=" cursor-pointer" href="/settings">
+              {session?.user && <SettingIcon className="h-6 w-6" />}
+            </Link>
+          </Tooltip>
         </div>
       </div>
     </nav>

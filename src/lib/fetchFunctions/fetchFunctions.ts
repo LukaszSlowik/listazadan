@@ -45,6 +45,27 @@ export async function getWhitelist(userId: string): Promise<WhiteListEmail[]> {
     return [];
   }
 }
+
+export async function getEmailsFromWhitelistByEmail(
+  email: string,
+): Promise<{ email: string; id: string }[]> {
+  try {
+    const { signal } = new AbortController();
+    const res = await fetch(`/api/accessList?email=${email}`, {
+      cache: "no-store",
+      signal,
+      next: {
+        revalidate: 0,
+      },
+    });
+    const response = await res.json();
+    //const emails = response.map((item: { email: string }) => item.email);
+    return response;
+  } catch (err) {
+    return [];
+  }
+}
+
 export async function addWhiteList(userId: string, email: string) {
   try {
     const { signal } = new AbortController();
